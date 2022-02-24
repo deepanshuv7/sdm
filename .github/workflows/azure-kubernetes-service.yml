@@ -38,14 +38,14 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Install Kubelogin
-	      if: ${{ false }}
-	      run: |
-	        echo "Install Kubelogin"
-          	echo "Downloading Zip"
-	        wget https://github.com/Azure/kubelogin/releases/download/v0.0.9/kubelogin-linux-amd64.zip
-	        echo "Unzipping kubelogin"
-	        unzip kubelogin-linux-amd64.zip
-	        sudo mv ./bin/linux_amd64/kubelogin /usr/bin
+	if: ${{ false }}
+	run: |
+		echo "Install Kubelogin"
+		echo "Downloading Zip"
+		wget https://github.com/Azure/kubelogin/releases/download/v0.0.9/kubelogin-linux-amd64.zip
+		echo "Unzipping kubelogin"
+		unzip kubelogin-linux-amd64.zip
+		sudo mv ./bin/linux_amd64/kubelogin /usr/bin
 	      
         
 	  - name: Generate kube to connect with AKS
