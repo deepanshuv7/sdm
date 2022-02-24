@@ -1,0 +1,50 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: sdm-gateway-deployment-3
+  labels:
+    app: sdm-gateway-3
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: sdm-gateway-3
+  template:
+    metadata:
+      labels:
+        app: sdm-gateway-3
+    spec:
+      volumes:
+      - name: vaultcerts
+        secret:
+          secretName: my-tls-secret
+          items:
+          - key: tls.key
+            path: certs/tls.key
+          - key: tls.crt
+            path: certs/tls.crt
+          # - key: tls.ca
+          #   path: certs/tls.crt
+      containers:
+      - name: sdm-gateway-3
+        volumeMounts:
+        - name: vaultcerts
+          mountPath: "/etc/strongdm"
+        image: quay.io/sdmrepo/relay:latest
+        imagePullPolicy: Always
+        env:
+        - name: SDM_ORCHESTRATOR_PROBES
+          value: ":9090"
+        - name: VAULT_TOKEN
+          value: "s.eFfwo8hfk48k3EAzC1mJTPEm"
+        - name: SDM_RELAY_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: sdm-gateway-secret-3
+              key: token
+        livenessProbe:
+          httpGet:
+            path: /liveness
+            port: 9090
+          initialDelaySeconds: 5
+          periodSeconds: 10
