@@ -36,6 +36,6 @@ jobs:
         run: |
             wget -O sdm-cli.zip https://app.strongdm.com/releases/cli/linux
             unzip sdm-cli.zip
-            ./sdm login --admin-token=${{env.SDM_ADMIN_TOKEN}}
+            ./sdm login --admin-token=${{secrets.SDM_ADMIN_TOKEN}}
             RELAYTOKEN=$(sudo ./sdm relay create --name="TestGateway123")
             echo $RELAYTOKEN
