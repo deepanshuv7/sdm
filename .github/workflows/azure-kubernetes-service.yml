@@ -38,7 +38,6 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Install Kubelogin
-	if: ${{ false }}
 	run: |
 		echo "Install Kubelogin"
 		echo "Downloading Zip"
@@ -49,7 +48,6 @@ jobs:
 	      
         
 	  - name: Generate kube to connect with AKS
-	        if: ${{ true }}
 	        run: |
 	          echo "Generating Token"
 	          az login --service-principal -u ${{secrets.SPN_CLIENT_ID}} -p ${{secrets.SPN_CLIENT_SECRET}} --tenant ${{secrets.SPN_CLIENT_TENANT}}
