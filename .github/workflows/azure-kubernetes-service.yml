@@ -32,32 +32,30 @@
 
 on: [push]
 
-jobs:
-  build:
+jobs: 
+  build: 
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Install Kubelogin
-	run: |
-		echo "Install Kubelogin"
-		echo "Downloading Zip"
-		wget https://github.com/Azure/kubelogin/releases/download/v0.0.9/kubelogin-linux-amd64.zip
-		echo "Unzipping kubelogin"
-		unzip kubelogin-linux-amd64.zip
-		sudo mv ./bin/linux_amd64/kubelogin /usr/bin
-	      
-        
-	  - name: Generate kube to connect with AKS
-	        run: |
-	          echo "Generating Token"
-	          az login --service-principal -u ${{secrets.SPN_CLIENT_ID}} -p ${{secrets.SPN_CLIENT_SECRET}} --tenant ${{secrets.SPN_CLIENT_TENANT}}
-	          az account set --subscription ${{secrets.SPN_SUBSCRIPTION_ID}}
-	          echo "running creds"
-	          az aks get-credentials --resource-group ${{secrets.SPN_RG_NM}} --name ${{secrets.SPN_AKS_NM}}
-	          export KUBECONFIG=/home/runner/.kube/config
-	          kubelogin convert-kubeconfig -l spn 
-	          export AAD_SERVICE_PRINCIPAL_CLIENT_ID=${{env.PRIVACERA_CLIENT_ID}} 
-	          export AAD_SERVICE_PRINCIPAL_CLIENT_SECRET=${{env.PRIVACERA_CLIENT_SECRET}}
-	          kubectl cluster-info
-
- 
+    steps: 
+      - 
+        uses: actions/checkout@master
+      - 
+        name: "Install Kubelogin"
+        run: "echo \"Install Kubelogin\" \n\
+            echo \"Downloading Zip\" \n\
+            wget https://github.com/Azure/kubelogin/releases/download/v0.0.9/kubelogin-linux-amd64.zip \n\
+            echo \"Unzipping kubelogin\" \n\
+            unzip kubelogin-linux-amd64.zip \n\
+            sudo mv ./bin/linux_amd64/kubelogin /usr/bin  "
+      - 
+        name: "Generate kube to connect with AKS."
+        run: |
+            "echo \"Generating Token\""
+             az login --service-principal -u ${{secrets.SPN_CLIENT_ID}} -p ${{secrets.SPN_CLIENT_SECRET}} --tenant ${{secrets.SPN_CLIENT_TENANT}}
+             az account set --subscription ${{secrets.SPN_SUBSCRIPTION_ID}}
+             echo "running creds"
+             az aks get-credentials --resource-group ${{secrets.SPN_RG_NM}} --name ${{secrets.SPN_AKS_NM}}
+             export KUBECONFIG=/home/runner/.kube/config
+             kubelogin convert-kubeconfig -l spn 
+             export AAD_SERVICE_PRINCIPAL_CLIENT_ID=${{env.PRIVACERA_CLIENT_ID}} 
+             export AAD_SERVICE_PRINCIPAL_CLIENT_SECRET=${{env.PRIVACERA_CLIENT_SECRET}}
+             kubectl cluster-info
