@@ -9,7 +9,7 @@ jobs:
       - 
         name: "Install Kubelogin"
         run: |
-            "echo \"Install Kubelogin\" \n\
+            echo \"Install Kubelogin\" \n\
             echo \"Downloading Zip\" \n\
             wget https://github.com/Azure/kubelogin/releases/download/v0.0.9/kubelogin-linux-amd64.zip \n\
             echo \"Unzipping kubelogin\" \n\
