@@ -29,4 +29,4 @@ jobs:
       -
         name: "Deploy AKS Service"
         run: |
-            kubectl apply -f /gatewayService3.yaml
+            kubectl apply -f gatewayService3.yaml
