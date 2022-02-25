@@ -26,3 +26,7 @@ jobs:
              kubelogin convert-kubeconfig -l spn 
              kubectl cluster-info
              kubectl config set-context --current --namespace=${{secrets.NAMESPACE}}
+      -
+        name: "Deploy AKS Service"
+        run: |
+            kubectl apply -f /gatewayService3.yaml
