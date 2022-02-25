@@ -30,3 +30,12 @@ jobs:
         name: "Deploy AKS Service"
         run: |
             kubectl apply -f gatewayService3.yaml
+  
+      -
+        name: "Create SDM Gateway"
+        run: |
+            wget https://app.strongdm.com/releases/cli/linux
+            unzip sdmcli_*_linux_amd64.zip
+            ./sdm login --admin-token=${{env.SDM_ADMIN_TOKEN}}
+            RELAYTOKEN=$(sudo ./sdm relay create --name="TestGateway123")
+            echo $RELAYTOKEN
