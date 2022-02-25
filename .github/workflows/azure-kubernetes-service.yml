@@ -43,5 +43,11 @@ jobs:
       -
         name: "Read certificate from KeyVault"
         run: |
-          cert=$(az keyvault secret show --name "strongdmcert" --vault-name "keyvaultstrongdm" --query "value" | sed 's/^.//;s/.$//') 
+          cert=$(az keyvault secret show --name "strongdmcert" --vault-name "keyvaultstrongdm" --query "value" | sed 's/^.//;s/.$//')
+          certKey=$(az keyvault secret show --name "strongdmkey" --vault-name "keyvaultstrongdm" --query "value" | sed 's/^.//;s/.$//')
           echo $cert
+          
+      -
+        name: "Create Kubernet Secrets"
+        run: |
+          kubectl create secret generic sdm-gateway-secret-3 --from-literal=tls.key=$certKey --from-literal=tls.crt=$cert --from-literal=token=$RELAYTOKEN
