@@ -24,6 +24,5 @@ jobs:
              az aks get-credentials --resource-group ${{secrets.SPN_RG_NM}} --name ${{secrets.SPN_AKS_NM}}
              export KUBECONFIG=/home/runner/.kube/config
              kubelogin convert-kubeconfig -l spn 
-             export AAD_SERVICE_PRINCIPAL_CLIENT_ID=${{env.PRIVACERA_CLIENT_ID}} 
-             export AAD_SERVICE_PRINCIPAL_CLIENT_SECRET=${{env.PRIVACERA_CLIENT_SECRET}}
              kubectl cluster-info
+             kubectl config set-context --current --namespace=${{secrets.NAMESPACE}}
