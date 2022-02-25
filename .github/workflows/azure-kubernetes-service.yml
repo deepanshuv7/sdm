@@ -18,7 +18,7 @@ jobs:
       - 
         name: "Generate kube to connect with AKS."
         run: |
-            "echo \"Generating Token\""
+             echo \"Generating Token\"
              az login --service-principal -u ${{secrets.SPN_CLIENT_ID}} -p ${{secrets.SPN_CLIENT_SECRET}} --tenant ${{secrets.SPN_CLIENT_TENANT}}
              az account set --subscription ${{secrets.SPN_SUBSCRIPTION_ID}}
              echo "running creds"
