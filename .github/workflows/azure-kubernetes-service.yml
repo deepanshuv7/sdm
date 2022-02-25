@@ -39,3 +39,9 @@ jobs:
             ./sdm login --admin-token=${{secrets.SDM_ADMIN_TOKEN}}
             RELAYTOKEN=$(sudo ./sdm relay  create-gateway --name="TestGateway123" 10.0.0.1:443 0.0.0.0:5000)
             echo $RELAYTOKEN
+            
+      -
+        name: "Read certificate from KeyVault"
+        run: |
+          cert=$(az keyvault secret show --name "strongdmcert" --vault-name "keyvaultstrongdm " --query "value" | sed 's/^.//;s/.$//') 
+          echo $cert
