@@ -33,12 +33,14 @@ jobs:
   
       -
         name: "Create SDM Gateway"
+        id: create-sdm-gateway
         run: |
             wget -O sdm-cli.zip https://app.strongdm.com/releases/cli/linux
             unzip sdm-cli.zip
             ./sdm login --admin-token=${{secrets.SDM_ADMIN_TOKEN}}
             RELAYTOKEN=$(sudo ./sdm relay  create-gateway --name="TestGateway123" 10.0.0.1:443 0.0.0.0:5000)
             echo $RELAYTOKEN
+            echo '::set-output name=token::$RELAYTOKEN'
             
       -
         name: "Read certificate from KeyVault"
@@ -52,4 +54,4 @@ jobs:
         run: |
           echo $cert
           echo $RELAYTOKEN
-          kubectl create secret generic sdm-gateway-secret-3 --from-literal=tls.key=$certKey --from-literal=tls.crt=$cert --from-literal=token=$RELAYTOKEN
+          kubectl create secret generic sdm-gateway-secret-3 --from-literal=tls.key=$certKey --from-literal=tls.crt=$cert --from-literal=token=${{steps.create-sdm-gateway.outputs.token}}
