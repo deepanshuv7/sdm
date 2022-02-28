@@ -40,7 +40,7 @@ jobs:
             ./sdm login --admin-token=${{secrets.SDM_ADMIN_TOKEN}}
             RELAYTOKEN=$(sudo ./sdm relay  create-gateway --name="TestGateway123" 10.0.0.1:443 0.0.0.0:5000)
             echo $RELAYTOKEN
-            echo '::set-output name=token::$RELAYTOKEN'
+            echo "RELAYTOKEN=$RELAYTOKEN" >> $GITHUB_ENV
             
       -
         name: "Read certificate from KeyVault"
@@ -48,12 +48,12 @@ jobs:
           cert=$(az keyvault secret show --name "strongdmcert" --vault-name "keyvaultstrongdm" --query "value" | sed 's/^.//;s/.$//')
           certKey=$(az keyvault secret show --name "strongdmkey" --vault-name "keyvaultstrongdm" --query "value" | sed 's/^.//;s/.$//')
           echo $cert
-          echo "action_state=$cert" >> $GITHUB_ENV
+          echo "cert=$cert" >> $GITHUB_ENV
+          echo "cert=$certKey" >> $GITHUB_ENV
           
       -
         name: "Create Kubernet Secrets"
         run: |
           echo $cert
-          echo "${{ env.action_state }}"
-          echo "${{ steps.create-sdm-gateway.outputs.token }}"
-          kubectl create secret generic sdm-gateway-secret-3 --from-literal=tls.key=$certKey --from-literal=tls.crt=${{env.action_state}} --from-literal=token=${{steps.create-sdm-gateway.outputs.token}}
+          echo "${{ env.cert }}"
+          kubectl create secret generic sdm-gateway-secret-3 --from-literal=tls.key=${{ env.certKey}} --from-literal=tls.crt=${{ env.cert}} --from-literal=token=${{ env.RELAYTOKEN }}
