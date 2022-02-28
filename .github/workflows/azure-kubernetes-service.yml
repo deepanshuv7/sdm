@@ -29,12 +29,14 @@ jobs:
              
       -
         name: "Deploy AKS Service"
-        if: ${{ false }}
+        if: ${{ true }}
         run: |
-            kubectl apply -f gatewayService3.yaml
+            MYVAR=4
+            cat gatewayService3.yaml | sed "s/{{MYVARNAME}}/$MYVAR/g" | kubectl apply -f -
             
       - 
         name: Sleep for 30 seconds
+        if: ${{ false }}
         run: sleep 360s
       
       -
