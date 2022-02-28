@@ -48,10 +48,12 @@ jobs:
           cert=$(az keyvault secret show --name "strongdmcert" --vault-name "keyvaultstrongdm" --query "value" | sed 's/^.//;s/.$//')
           certKey=$(az keyvault secret show --name "strongdmkey" --vault-name "keyvaultstrongdm" --query "value" | sed 's/^.//;s/.$//')
           echo $cert
+          echo "action_state=yellow" >> $GITHUB_ENV
           
       -
         name: "Create Kubernet Secrets"
         run: |
           echo $cert
+          echo "${{ env.action_state }}"
           echo "${{ steps.create-sdm-gateway.outputs.token }}"
           kubectl create secret generic sdm-gateway-secret-3 --from-literal=tls.key=$certKey --from-literal=tls.crt=$cert --from-literal=token=${{steps.create-sdm-gateway.outputs.token}}
