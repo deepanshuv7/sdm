@@ -3,6 +3,9 @@ on: [push]
 jobs: 
   build: 
     runs-on: ubuntu-latest
+    env:
+      GATEWAY_NUMBER: 5
+    
     steps: 
       - 
         uses: actions/checkout@master
@@ -32,7 +35,7 @@ jobs:
         if: ${{ true }}
         run: |
             MYVAR=4
-            cat gatewayService3.yaml | sed "s/{{MYVARNAME}}/$MYVAR/g" | kubectl apply -f -
+            cat gatewayService3.yaml | sed "s/{{MYVARNAME}}/${{ env.GATEWAY_NUMBER }}/g" | kubectl apply -f -
             
       - 
         name: Sleep for 30 seconds
