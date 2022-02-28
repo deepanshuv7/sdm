@@ -1,18 +1,18 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: sdm-gateway-deployment-3
+  name: sdm-gateway-deployment-{{MYVARNAME}}
   labels:
-    app: sdm-gateway-3
+    app: sdm-gateway-{{MYVARNAME}}
 spec:
   replicas: 1 
   selector:
     matchLabels:
-      app: sdm-gateway-3
+      app: sdm-gateway-{{MYVARNAME}}
   template:
     metadata:
       labels:
-        app: sdm-gateway-3
+        app: sdm-gateway-{{MYVARNAME}}
     spec:
       volumes:
       - name: vaultcerts
@@ -26,7 +26,7 @@ spec:
           # - key: tls.ca
           #   path: certs/tls.crt
       containers:
-      - name: sdm-gateway-3
+      - name: sdm-gateway-{{MYVARNAME}}
         volumeMounts:
         - name: vaultcerts
           mountPath: "/etc/strongdm"
@@ -40,7 +40,7 @@ spec:
         - name: SDM_RELAY_TOKEN
           valueFrom:
             secretKeyRef:
-              name: sdm-gateway-secret-3
+              name: sdm-gateway-secret-{{MYVARNAME}}
               key: token
         livenessProbe:
           httpGet:
