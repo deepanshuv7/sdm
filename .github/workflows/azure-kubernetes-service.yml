@@ -44,7 +44,7 @@ jobs:
       
       -
         name: "Create SDM Gateway"
-        if: ${{ false }}
+        if: ${{ true }}
         id: create-sdm-gateway
         run: |
             wget -O sdm-cli.zip https://app.strongdm.com/releases/cli/linux
@@ -65,14 +65,15 @@ jobs:
           
       -
         name: "Create Kubernet Secrets"
-        if: ${{ false }}
+        if: ${{ true }}
         run: |
           echo $cert
           echo "${{ env.cert }}"
-          kubectl create secret generic sdm-gateway-secret-3 --from-literal=tls.key=${{ env.certKey}} --from-literal=tls.crt=${{ env.cert}} --from-literal=token=${{ env.RELAYTOKEN }}
+          secretname= "sdm-gateway-secret-${{ env.GATEWAY_NUMBER }}"
+          kubectl create secret generic $secretname --from-literal=tls.key=${{ env.certKey}} --from-literal=tls.crt=${{ env.cert}} --from-literal=token=${{ env.RELAYTOKEN }}
 
       -
         name: "Deploy Kubernet Gateway"
-        if: ${{ false }}
+        if: ${{ true }}
         run: |
-          kubectl apply -f gatewayDep3.yaml
+          cat gatewayDep3.yaml | sed "s/{{MYVARNAME}}/${{ env.GATEWAY_NUMBER }}/g" | kubectl apply -f -
