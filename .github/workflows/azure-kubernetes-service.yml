@@ -26,13 +26,20 @@ jobs:
              kubelogin convert-kubeconfig -l spn 
              kubectl cluster-info
              kubectl config set-context --current --namespace=${{secrets.NAMESPACE}}
+             
       -
         name: "Deploy AKS Service"
+        if: ${{ false }}
         run: |
             kubectl apply -f gatewayService3.yaml
-  
+            
+      - 
+        name: Sleep for 30 seconds
+        run: sleep 30s
+      
       -
         name: "Create SDM Gateway"
+        if: ${{ false }}
         id: create-sdm-gateway
         run: |
             wget -O sdm-cli.zip https://app.strongdm.com/releases/cli/linux
@@ -53,6 +60,7 @@ jobs:
           
       -
         name: "Create Kubernet Secrets"
+        if: ${{ false }}
         run: |
           echo $cert
           echo "${{ env.cert }}"
@@ -60,5 +68,6 @@ jobs:
 
       -
         name: "Deploy Kubernet Gateway"
+        if: ${{ false }}
         run: |
           kubectl apply -f gatewayDep3.yaml
