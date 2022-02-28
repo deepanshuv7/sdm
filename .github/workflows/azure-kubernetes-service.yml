@@ -36,7 +36,7 @@ jobs:
              
       -
         name: "Deploy AKS Service"
-        if: ${{ false }}
+        if: ${{ true }}
         run: |
             MYVAR=4
             cat gatewayService3.yaml | sed "s/{{MYVARNAME}}/${{ env.GATEWAY_NUMBER }}/g" | kubectl apply -f -
@@ -48,7 +48,7 @@ jobs:
       
       -
         name: "Create SDM Gateway"
-        if: ${{ false }}
+        if: ${{ true }}
         id: create-sdm-gateway
         run: |
             wget -O sdm-cli.zip https://app.strongdm.com/releases/cli/linux
@@ -71,7 +71,7 @@ jobs:
           
       -
         name: "Create Kubernet Secrets"
-        if: ${{ false }}
+        if: ${{ true }}
         run: |
           secretname="sdm-gateway-secret-${{ env.GATEWAY_NUMBER }}"
           echo $secretname
@@ -79,6 +79,6 @@ jobs:
 
       -
         name: "Deploy Kubernet Gateway"
-        if: ${{ false }}
+        if: ${{ true }}
         run: |
           cat gatewayDep3.yaml | sed "s/{{MYVARNAME}}/${{ env.GATEWAY_NUMBER }}/g" | kubectl apply -f -
