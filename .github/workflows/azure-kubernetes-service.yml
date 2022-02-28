@@ -53,5 +53,5 @@ jobs:
         name: "Create Kubernet Secrets"
         run: |
           echo $cert
-          echo ${{ steps.create-sdm-gateway.outputs.token }}
+          echo "${{ steps.create-sdm-gateway.outputs.token }}"
           kubectl create secret generic sdm-gateway-secret-3 --from-literal=tls.key=$certKey --from-literal=tls.crt=$cert --from-literal=token=${{steps.create-sdm-gateway.outputs.token}}
