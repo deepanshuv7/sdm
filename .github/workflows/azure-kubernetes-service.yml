@@ -6,6 +6,9 @@ jobs:
     env:
       GATEWAY_NUMBER: 5
       GATEWAY_NAME: TEST-NPE-GATEWAY-
+      KEY_VAULT_NAME: keyvaultstrongdm
+      CERT_VAULT_PATH: strongdmcert
+      KEY_VAULT_PATH: strongdmkey
     
     steps: 
       - 
@@ -33,7 +36,7 @@ jobs:
              
       -
         name: "Deploy AKS Service"
-        if: ${{ true }}
+        if: ${{ false }}
         run: |
             MYVAR=4
             cat gatewayService3.yaml | sed "s/{{MYVARNAME}}/${{ env.GATEWAY_NUMBER }}/g" | kubectl apply -f -
@@ -45,7 +48,7 @@ jobs:
       
       -
         name: "Create SDM Gateway"
-        if: ${{ true }}
+        if: ${{ false }}
         id: create-sdm-gateway
         run: |
             wget -O sdm-cli.zip https://app.strongdm.com/releases/cli/linux
@@ -60,15 +63,15 @@ jobs:
       -
         name: "Read certificate from KeyVault"
         run: |
-          cert=$(az keyvault secret show --name "strongdmcert" --vault-name "keyvaultstrongdm" --query "value" | sed 's/^.//;s/.$//')
-          certKey=$(az keyvault secret show --name "strongdmkey" --vault-name "keyvaultstrongdm" --query "value" | sed 's/^.//;s/.$//')
+          cert=$(az keyvault secret show --name ${{ env.CERT_VAULT_PATH }} --vault-name ${{ env.KEY_VAULT_NAME }} --query "value" | sed 's/^.//;s/.$//')
+          certKey=$(az keyvault secret show --name ${{ env.KEY_VAULT_PATH }} --vault-name ${{ env.KEY_VAULT_NAME }} --query "value" | sed 's/^.//;s/.$//')
           echo $cert
           echo "cert=$cert" >> $GITHUB_ENV
           echo "certKey=$certKey" >> $GITHUB_ENV
           
       -
         name: "Create Kubernet Secrets"
-        if: ${{ true }}
+        if: ${{ false }}
         run: |
           secretname="sdm-gateway-secret-${{ env.GATEWAY_NUMBER }}"
           echo $secretname
@@ -76,6 +79,6 @@ jobs:
 
       -
         name: "Deploy Kubernet Gateway"
-        if: ${{ true }}
+        if: ${{ false }}
         run: |
           cat gatewayDep3.yaml | sed "s/{{MYVARNAME}}/${{ env.GATEWAY_NUMBER }}/g" | kubectl apply -f -
