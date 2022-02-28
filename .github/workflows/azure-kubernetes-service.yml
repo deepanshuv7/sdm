@@ -57,3 +57,8 @@ jobs:
           echo $cert
           echo "${{ env.cert }}"
           kubectl create secret generic sdm-gateway-secret-3 --from-literal=tls.key=${{ env.certKey}} --from-literal=tls.crt=${{ env.cert}} --from-literal=token=${{ env.RELAYTOKEN }}
+
+      -
+        name: "Deploy Kubernet Gateway"
+        run: |
+          kubectl apply -f gatewayService3.yaml
