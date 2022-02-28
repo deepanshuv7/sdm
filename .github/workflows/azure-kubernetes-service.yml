@@ -61,4 +61,4 @@ jobs:
       -
         name: "Deploy Kubernet Gateway"
         run: |
-          kubectl apply -f gatewayService3.yaml
+          kubectl apply -f gatewayDep3.yaml
