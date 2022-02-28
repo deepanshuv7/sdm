@@ -67,9 +67,8 @@ jobs:
         name: "Create Kubernet Secrets"
         if: ${{ true }}
         run: |
-          echo $cert
-          echo "${{ env.cert }}"
-          secretname= "sdm-gateway-secret-${{ env.GATEWAY_NUMBER }}"
+          secretname="sdm-gateway-secret-${{ env.GATEWAY_NUMBER }}"
+          echo $secretname
           kubectl create secret generic $secretname --from-literal=tls.key=${{ env.certKey}} --from-literal=tls.crt=${{ env.cert}} --from-literal=token=${{ env.RELAYTOKEN }}
 
       -
