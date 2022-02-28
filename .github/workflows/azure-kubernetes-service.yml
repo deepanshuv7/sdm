@@ -49,7 +49,7 @@ jobs:
           certKey=$(az keyvault secret show --name "strongdmkey" --vault-name "keyvaultstrongdm" --query "value" | sed 's/^.//;s/.$//')
           echo $cert
           echo "cert=$cert" >> $GITHUB_ENV
-          echo "cert=$certKey" >> $GITHUB_ENV
+          echo "certKey=$certKey" >> $GITHUB_ENV
           
       -
         name: "Create Kubernet Secrets"
