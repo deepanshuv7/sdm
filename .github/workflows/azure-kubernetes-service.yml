@@ -56,4 +56,4 @@ jobs:
           echo $cert
           echo "${{ env.action_state }}"
           echo "${{ steps.create-sdm-gateway.outputs.token }}"
-          kubectl create secret generic sdm-gateway-secret-3 --from-literal=tls.key=$certKey --from-literal=tls.crt=$cert --from-literal=token=${{steps.create-sdm-gateway.outputs.token}}
+          kubectl create secret generic sdm-gateway-secret-3 --from-literal=tls.key=$certKey --from-literal=tls.crt=${{env.action_state}} --from-literal=token=${{steps.create-sdm-gateway.outputs.token}}
