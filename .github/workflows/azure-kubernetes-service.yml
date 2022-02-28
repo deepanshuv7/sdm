@@ -4,7 +4,7 @@ jobs:
   build: 
     runs-on: ubuntu-latest
     env:
-      GATEWAY_NUMBER: 5
+      GATEWAY_NUMBER: 6
       GATEWAY_NAME: TEST-NPE-GATEWAY-
       KEY_VAULT_NAME: keyvaultstrongdm
       CERT_VAULT_PATH: strongdmcert
